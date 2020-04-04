@@ -557,7 +557,7 @@ class Backpropagation(FeedForward):
         """
         self.nodeDeltas = np.zeros(self.totalNumNodes, dtype=self.dtype)
 
-    def train(self, trainingSets, rprint=False):
+    def train(self, trainingSets, rprint=True, log_filename="train.log"):
         """train the mlp-network.
         
         Training of the mlp-network for a given `trainingSets` for maximum number of epchos. 
@@ -567,7 +567,10 @@ class Backpropagation(FeedForward):
         trainingSets : array
             The training set is provided as float-array where X- and y-values are keeped together.
         rprint : bool, optional
-            print the current progress with global error, by default False
+            print the current progress with global error, by default True
+        log_filename : str, optional
+            name of the logging-file for the training, by default 'train.log'
+
         Returns
         -------
          : bool
@@ -576,16 +579,28 @@ class Backpropagation(FeedForward):
 
         self.numEpochs = 1
         if rprint:
-            logging.basicConfig(level=logging.INFO)
+            logging.basicConfig(
+                level=logging.INFO,
+                filename=log_filename,
+                format="%(asctime)s %(levelname)-8s %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
+            )
+            logging.info("\tNumber of Epochs \t Global Error")
+            logging.info("\t--------------------------------")
         # Have to change to a for-if slope
         while True:
             if self.numEpochs > self.maxNumEpochs:
+                if rprint:
+                    # Training failed
+                    logging.info("\t--------------------------------")
+                    logging.warning("\tFAILED")
+                    logging.shutdown()
                 return False
             sumNetworkError = 0
             for i in range(len(trainingSets)):
                 # Switching to FeedForworad.py
                 self.network.activate(trainingSets[i])
-                outputs = self.network.getOutputs()
+                #outputs = self.network.getOutputs()
                 # Come back to Backpropagation.py
                 self.calculateNodeDeltas(trainingSets[i])
                 self.calculateGradients()
@@ -593,13 +608,17 @@ class Backpropagation(FeedForward):
                 self.applyWeightChanges()
                 sumNetworkError += self.calculateNetworkError(trainingSets[i])
             globalError = sumNetworkError / len(trainingSets)
-            logging.info("--------------------------------")
-            logging.info("Num Epochs: {}".format(self.numEpochs))
-            logging.info("Global Error: {}".format(globalError))
+
+            logging.info("\t{}\t{}".format(self.numEpochs, globalError))
             self.error = globalError
             self.numEpochs = self.numEpochs + 1
             if globalError < self.minimumError:
                 break
+        if rprint:
+            # Training suceed
+            logging.info("\t--------------------------------")
+            logging.info("\tSUCESS")
+            logging.shutdown()
         return True
 
     def calculateNodeDeltas(self, trainingSet):
