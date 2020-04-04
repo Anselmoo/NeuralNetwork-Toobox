@@ -22,3 +22,5 @@ cabal.project.local~
 .HTF/
 .ghc.environment.*
 /TMP.log
+/train.log
+test.log
