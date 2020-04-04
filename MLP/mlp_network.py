@@ -555,7 +555,9 @@ class Backpropagation(FeedForward):
         """
         self.nodeDeltas = np.zeros(self.totalNumNodes, dtype=self.dtype)
 
-    def train(self, trainingSets, log=True, log_filename="train.log"):
+    def train(
+        self, trainingSets, log=True, log_filename="train.log", tmp_filename="tmp.log"
+    ):
         """train the mlp-network.
         
         Training of the mlp-network for a given `trainingSets` for maximum number of epchos. 
@@ -568,7 +570,9 @@ class Backpropagation(FeedForward):
             log the current progress with time-stamp, epochs, and global error, by default True
         log_filename : str, optional
             name of the logging-file for the training, by default 'train.log'
-
+        tmp_filename : str, optional
+            name of the `temporary` logging-file for the training, by default 'tmp.log'
+            
         Returns
         -------
          : bool
@@ -580,7 +584,7 @@ class Backpropagation(FeedForward):
             logging.getLogger("train")
             logging.basicConfig(
                 level=logging.DEBUG,
-                filename="tmp.log",
+                filename=tmp_filename,
                 format="%(asctime)s\t%(levelname)-8s\t%(message)s",
                 datefmt="%Y-%m-%d %H:%M:%S",
             )
@@ -598,13 +602,13 @@ class Backpropagation(FeedForward):
                     # Training failed
                     logging.log(35, "FAILED-AFTER:\t{}".format(self.numEpochs - 1))
                     logging.shutdown()
-                    self.move_file(log_filename)
+                    self.move_file(tmp_filename, log_filename)
                 return False
             sumNetworkError = 0
             for i, act_training_set in enumerate(trainingSets):
                 # Switching to FeedForworad.py
                 self.network.activate(act_training_set)
-                # outputs = self.network.getOutputs()
+
                 # Come back to Backpropagation.py
                 self.calculateNodeDeltas(act_training_set)
                 self.calculateGradients()
@@ -621,11 +625,11 @@ class Backpropagation(FeedForward):
             # Training suceed
             logging.log(34, "FINISHED-AFTER:\t{}".format(self.numEpochs - 1))
             logging.shutdown()
-            self.move_file(log_filename)
-            # logging.stream.close()
+            self.move_file(tmp_filename, log_filename)
+
         return True
 
-    def test(self, testSets, log=True, log_filename="test.log"):
+    def test(self, testSets, log=True, log_filename="test.log", tmp_filename="tmp.log"):
         """train and verification of the mlp-network.
         
         Testing of the mlp-network for a given `testSets`. 
@@ -637,8 +641,10 @@ class Backpropagation(FeedForward):
         log : bool, optional
             print the current progress with global error, by default True
         log_filename : str, optional
-            name of the logging-file for the test, by default 'train.log'
-
+            name of the logging-file for the testing, by default 'test.log'
+        tmp_filename : str, optional
+            name of the `temporary` logging-file for the testing, by default 'tmp.log'
+        
         Returns
         -------
          : bool
@@ -658,7 +664,7 @@ class Backpropagation(FeedForward):
             )
             # logging.addLevelName(30, "WARNING")
             logging.addLevelName(32, "INFO:")
-            logging.addLevelName(33, "OPTIMIZATION:")
+            logging.addLevelName(36, "PREDICTION:")
             logging.addLevelName(34, "SUCCEED:")
             logging.addLevelName(35, "FAILED:")
             logging.log(32, "Reference-Values\tPredicted-Values\tMSE-Error")
@@ -672,24 +678,23 @@ class Backpropagation(FeedForward):
             # outputs = self.network.getOutputs()
             # Come back to Backpropagation.py
             self.calculateNodeDeltas(act_testSet)
-            sumNetworkError, ref_out, pre_out = self.calculateNetworkError(
+            networkError, ref_out, pre_out = self.calculateNetworkError(
                 act_testSet, verbose=True
             )
-            print(ref_out, pre_out, sumNetworkError)
-            # globalError = sumNetworkError / len(testSets)
-            # print(self.network.activate(testSets))
-            # if globalError < self.minimumError:
-            #    return True
-            # else:
-            #    return False
-            logging.log(33, "{}\t{}\t{}".format(ref_out, pre_out, sumNetworkError))
+            logging.log(36, "{}\t{}\t{}".format(ref_out, pre_out, networkError))
+            sumNetworkError += networkError
+        globalError = sumNetworkError / len(testSets)
 
-        # if log:
-        # Training suceed
-        #    logging.log(34,"FINISHED-AFTER:\t{}".format(self.numEpochs - 1))
-        logging.shutdown()
-        self.move_file(log_filename)
-        # return True
+        if globalError < self.minimumError:
+            logging.log(34, "UNDER-ERROR-LIMIT:\t{}".format(globalError))
+            logging.shutdown()
+            self.move_file(tmp_filename, log_filename)
+            return True
+        else:
+            logging.log(35, "ERROR-LIMIT-CRASHED:\t{}".format(globalError))
+            logging.shutdown()
+            self.move_file(tmp_filename, log_filename)
+            return False
 
     def calculateNodeDeltas(self, trainingSet):
         """calculateNodeDeltas, error of each node.
@@ -880,18 +885,18 @@ class Backpropagation(FeedForward):
         return self.error
 
     @staticmethod
-    def move_file(log_filename):
+    def move_file(old_file, new_file):
         try:
-            os.rename("tmp.log", log_filename)
+            os.rename(old_file, new_file)
         except FileExistsError:
-            os.replace("tmp.log", log_filename)
+            os.replace(old_file, new_file)
 
 
 if __name__ == "__main__":
 
     # Ssigmoid = Sigmoid()
 
-    networkLayer = [2, 5, 1]
+    networkLayer = [3, 5, 1]
 
     # feedForward = FeedForward(networkLayer, "Sigmoid")
 
@@ -899,7 +904,16 @@ if __name__ == "__main__":
         networkLayer, "Sigmoid", 0.7, 0.5, maxNumEpochs=100000
     )
 
-    trainingSet = np.array([[0, 0, 0], [0, 1, 1], [1, 0, 1], [1, 1, 0]])
+    trainingSet = np.array(
+        [
+            [0, 0, 0, 0],
+            [0, 0, 1, 1],
+            [1, 0, 0, 1],
+            [1, 1, 0, 0],
+            [0, 1, 1, 0],
+            [1, 1, 1, 0],
+        ]
+    )
 
     backpropagation.initialise()
     result = backpropagation.train(trainingSet)
