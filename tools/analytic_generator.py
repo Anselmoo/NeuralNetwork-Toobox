@@ -1,31 +1,128 @@
+"""
+analytic_generator.py is a tool for generating logic-tables for random logic-operators
+as csv-files for machine learning.
+"""
 import numpy as np
 import itertools
 import hashlib
 
 
 class LogicOperators:
+    """LogicOperators.
+    
+    Attributes
+    ----------
+    logic operators functions:
+        1. lg_and
+        2. lg_or
+        3. lg_xor
+        4. lg_not_and
+        5. lg_not_or
+    call functions for the logic operators
+
+    """
+
     @staticmethod
     def lg_and(x1, x2, dtype=np.int):
+        """lg_and.
+
+        Parameters
+        ----------
+        x1 :
+            x1
+        x2 :
+            x2
+        dtype :
+            dtype
+        """
         return np.logical_and(x1, x2, dtype=dtype)
 
     @staticmethod
     def lg_or(x1, x2, dtype=np.int):
+        """lg_or.
+
+        Parameters
+        ----------
+        x1 :
+            x1
+        x2 :
+            x2
+        dtype :
+            dtype
+        """
         return np.logical_or(x1, x2, dtype=dtype)
 
     @staticmethod
     def lg_xor(x1, x2, dtype=np.int):
+        """lg_xor.
+
+        Parameters
+        ----------
+        x1 :
+            x1
+        x2 :
+            x2
+        dtype :
+            dtype
+        """
         return np.logical_xor(x1, x2, dtype=dtype)
 
     @staticmethod
     def lg_not_and(x1, x2, dtype=np.int):
+        """lg_not_and.
+
+        Parameters
+        ----------
+        x1 :
+            x1
+        x2 :
+            x2
+        dtype :
+            dtype
+        """
         return np.logical_not(np.logical_and(x1, x2, dtype=dtype))
 
     @staticmethod
     def lg_not_or(x1, x2, dtype=np.int):
+        """lg_not_or.
+
+        Parameters
+        ----------
+        x1 :
+            x1
+        x2 :
+            x2
+        dtype :
+            dtype
+        """
         return np.logical_not(np.logical_or(x1, x2, dtype=dtype))
 
     @staticmethod
     def get_operator(lgopt, x1, x2):
+        """Get the logic operators.
+
+        get_operator is calling the static logic functions from above:
+        
+        1. lg_and
+        2. lg_or
+        3. lg_xor
+        4. lg_not_and
+        5. lg_not_or
+
+        Parameters
+        ----------
+        lgopt : str
+            Initial str for calling the logic operators
+        x1 : int or bool as array-like
+            x1, first value of the logic operator
+        x2 : int or bool as array-like
+            x2, second value of the logic operator
+
+        Return
+        ------
+         : bool
+            Returns the bool single or bool array depending on the logic operators
+        """
         if lgopt.lower() == "and":
             return LogicOperators.lg_and(x1, x2)
         elif lgopt.lower() == "or":
@@ -39,6 +136,8 @@ class LogicOperators:
 
 
 class LogicGenerator(LogicOperators, object):
+    """LogicGenerator.
+    """
 
     __lst = [0, 1]
     # only input parameters
@@ -55,30 +154,41 @@ class LogicGenerator(LogicOperators, object):
     logic_expression = ""
 
     def __init__(self, logic_items=5, fname=None):
+        """__init__.
+
+        Parameters
+        ----------
+        logic_items : int, optional
+            Total number of logical operators, by default 5.
+        fname : str, optional
+            Filename to save as txt, by default None
+        """
         super().__init__()
 
         self.logic_items = logic_items
         self.logic_variables = self.logic_items + 1
-        self.initialse()
+        self.logic_operations()
         self.fname = fname
-        # self.lst = [0, 1]
 
-    def initialse(self):
+    def logic_operations(self):
+        """Generate a random connections of logic opperators."""
         self.logic_init_mat = self.logic_matrices()
         ref_list = ["and", "or", "xor", "nand", "nor"]
         rnd_range = np.random.randint(len(ref_list), size=self.logic_items)
-
+        
         for i in rnd_range:
             self.logic_operators.append(ref_list[i])
 
     def logic_matrices(self):
-
+        """Generate a logic matrice with all possible combinations."""
         logic_mat = np.asarray(
             list(itertools.product(self.__lst, repeat=self.logic_variables))
         )
         return logic_mat
 
     def generator(self):
+        """generator.
+        """
 
         self.logic_init_mat = self.logic_matrices()
 
@@ -116,7 +226,7 @@ class LogicGenerator(LogicOperators, object):
         operators exported to an hashlib-value.
         
         """
-        
+
         header = ""
         for i in range(self.logic_variables):
             header += "x_{},  ".format(str(i))
@@ -134,10 +244,15 @@ class LogicGenerator(LogicOperators, object):
             )
         # Export
         np.savetxt(
-            self.fname, self.logic_res_mat, delimiter=",",header=header, footer=exprs, fmt="%5i"
+            self.fname,
+            self.logic_res_mat,
+            delimiter=",",
+            header=header,
+            footer=exprs,
+            fmt="%5i",
         )
 
 
 if __name__ == "__main__":
     # print(LogicOperators().lg_and([1,0], [1, 1]))
-    LogicGenerator().generator()
+    LogicGenerator(logic_items=1).generator()
