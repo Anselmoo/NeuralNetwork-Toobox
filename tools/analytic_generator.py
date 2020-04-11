@@ -237,6 +237,7 @@ class LogicGenerator(LogicOperators, object):
         # Adding the the rest of the logicial expressions
         for i, item in enumerate(self.logic_operators[1:]):
             exprs = "{}(x_{}, {})".format(item, str(i + 2), exprs)
+        exprs += ",-"  # Finisher for beeing consitent in the csv-style
         # Generate the export-name
         if not self.fname:
             self.fname = "{}.csv".format(
@@ -255,4 +256,4 @@ class LogicGenerator(LogicOperators, object):
 
 if __name__ == "__main__":
     # print(LogicOperators().lg_and([1,0], [1, 1]))
-    LogicGenerator(logic_items=1).generator()
+    LogicGenerator(logic_items=5).generator()
