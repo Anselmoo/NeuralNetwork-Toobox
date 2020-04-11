@@ -175,7 +175,7 @@ class LogicGenerator(LogicOperators, object):
         self.logic_init_mat = self.logic_matrices()
         ref_list = ["and", "or", "xor", "nand", "nor"]
         rnd_range = np.random.randint(len(ref_list), size=self.logic_items)
-        
+
         for i in rnd_range:
             self.logic_operators.append(ref_list[i])
 
@@ -256,4 +256,12 @@ class LogicGenerator(LogicOperators, object):
 
 if __name__ == "__main__":
     # print(LogicOperators().lg_and([1,0], [1, 1]))
-    LogicGenerator(logic_items=5).generator()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generating random truth-tables.")
+    parser.add_argument(
+        "n_items", type=int,  default=5, help="Number of elements, default 5"
+    )
+    args = parser.parse_args()
+    items = args.n_items
+    LogicGenerator(logic_items=items).generator()
