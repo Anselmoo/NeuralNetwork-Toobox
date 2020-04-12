@@ -1,8 +1,9 @@
-__all__ = ['Backpropagation']
+__all__ = ["Backpropagation"]
 import numpy as np
 import sys
 import logging
 import os
+import pickle
 
 
 class HyperbolicTangent:
@@ -482,7 +483,7 @@ class Backpropagation(FeedForward):
         learningRate,
         eta,
         minimumError=0.005,
-        maxNumEpochs=2000,
+        maxNumEpochs=100000,
         dtype=np.float64,
     ):
         """__init__.
@@ -916,8 +917,7 @@ if __name__ == "__main__":
         ]
     )
 
-    backpropagation.initialise()
     result = backpropagation.train(trainingSet)
     backpropagation.test(trainingSet)
 
-    # feedForward.save('./networkLayer.txt')
+    backpropagation.save("./networkLayer.txt")
