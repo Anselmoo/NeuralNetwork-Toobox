@@ -26,3 +26,4 @@ cabal.project.local~
 test.log
 MLP/__pycache__/mlp_network.cpython-37.pyc
 /MLP/example.py
+networkLayer.txt

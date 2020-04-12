@@ -1,4 +1,4 @@
-__all__ = ['MultilayerDesign', 'TrainTestSplit']
+__all__ = ["MultilayerDesign", "TrainTestSplit"]
 import numpy as np
 from scipy.stats import norm
 
@@ -18,7 +18,7 @@ class MultilayerDesign:
 
     @staticmethod
     def l_round(x):
-        
+
         layer_shape = np.round(x, 0).astype(int)
         layer_shape[np.argwhere(layer_shape == 0)] = 1
 
@@ -26,7 +26,7 @@ class MultilayerDesign:
 
     @staticmethod
     def make_shape(func, n_layers, witdh):
-        
+
         layer_shape = np.zeros(n_layers)
         layer_shape[-1] = 1
         val = func
@@ -40,7 +40,7 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def neg_exp_layer_stack(self):
-        
+
         layer_shape = self.make_shape(
             self.witdh * np.exp(-self.steps), self.n_layers, self.witdh
         )
@@ -76,7 +76,7 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def cosinus_layer_stack(self):
-        
+
         layer_shape = self.make_shape(
             np.abs(np.multiply(self.witdh, np.cos(self.steps))),
             self.n_layers,
@@ -85,7 +85,7 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def sinus_layer_stack(self):
-        
+
         layer_shape = self.make_shape(
             np.abs(np.multiply(self.witdh, np.sin(self.steps))),
             self.n_layers,
@@ -97,13 +97,15 @@ class MultilayerDesign:
 class TrainTestSplit:
     @staticmethod
     def train_test_set(data, ratio):
-        
-        
+
         cut_point = np.int(ratio[0] * data.shape[0] / ratio[1])
         return data[:cut_point], data[cut_point:]
-        
+
+
 class HyperOpt:
     pass
+
+
 if __name__ == "__main__":
     trainingSet = np.genfromtxt(
         "data/4_operators/6d5cb9b4b550b99515035260587fe41e5e94bd06ac35cadbf7e0de2f2ab8f92d.csv",
@@ -117,7 +119,8 @@ if __name__ == "__main__":
     print(MultilayerDesign(trainingSet[1]).norm_layer_stack())
     print(MultilayerDesign(trainingSet[1]).cosinus_layer_stack())
     print(MultilayerDesign(trainingSet[1]).sinus_layer_stack())
-    data =  np.genfromtxt(
+    data = np.genfromtxt(
         "data/4_operators/6d5cb9b4b550b99515035260587fe41e5e94bd06ac35cadbf7e0de2f2ab8f92d.csv",
-        delimiter=",")
-    print(TrainTestSplit.train_test_set(data, ratio=[2,3]))
+        delimiter=",",
+    )
+    print(TrainTestSplit.train_test_set(data, ratio=[2, 3]))
