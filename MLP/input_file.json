@@ -1,12 +1,12 @@
 {
   "run_1": {
     "general_options": {
-      "rpath": "data/1_operators",
+      "rpath": "data/1_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -20,12 +20,12 @@
   },
   "run_2": {
     "general_options": {
-      "rpath": "data/2_operators",
+      "rpath": "data/2_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -39,12 +39,12 @@
   },
   "run_3": {
     "general_options": {
-      "rpath": "data/3_operators",
+      "rpath": "data/3_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -58,12 +58,12 @@
   },
   "run_4": {
     "general_options": {
-      "rpath": "data/4_operators",
+      "rpath": "data/4_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -77,12 +77,12 @@
   },
   "run_5": {
     "general_options": {
-      "rpath": "data/5_operators",
+      "rpath": "data/5_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -96,12 +96,12 @@
   },
   "run_6": {
     "general_options": {
-      "rpath": "data/6_operators",
+      "rpath": "data/6_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -115,12 +115,12 @@
   },
   "run_7": {
     "general_options": {
-      "rpath": "data/7_operators",
+      "rpath": "data/7_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,
@@ -134,12 +134,12 @@
   },
   "run_8": {
     "general_options": {
-      "rpath": "data/8_operators",
+      "rpath": "data/8_operators/",
       "autosave": true,
-      "train_split": false
+      "train_split": [0, 0]
     },
     "neural_network": {
-      "function": "sigmoid",
+      "function": "Sigmoid",
       "epochs": 100000,
       "learning_rate": 0.7,
       "error_rate": 0.5,

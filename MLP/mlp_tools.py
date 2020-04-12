@@ -8,7 +8,7 @@ class MultilayerDesign:
     n_layers = 0
     steps = 0
 
-    def __init__(self, witdh, n_layers=None):
+    def __init__(self, witdh, n_layers=0):
         self.witdh = witdh - 1
         if n_layers:
             self.n_layers = n_layers
