@@ -17,6 +17,7 @@ class MultilayerDesign:
 
     @staticmethod
     def l_round(x):
+        
         layer_shape = np.round(x, 0).astype(int)
         layer_shape[np.argwhere(layer_shape == 0)] = 1
 
@@ -24,6 +25,7 @@ class MultilayerDesign:
 
     @staticmethod
     def make_shape(func, n_layers, witdh):
+        
         layer_shape = np.zeros(n_layers)
         layer_shape[-1] = 1
         val = func
@@ -37,7 +39,7 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def neg_exp_layer_stack(self):
-        # print(np.exp(-self.steps))
+        
         layer_shape = self.make_shape(
             self.witdh * np.exp(-self.steps), self.n_layers, self.witdh
         )
@@ -73,6 +75,7 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def cosinus_layer_stack(self):
+        
         layer_shape = self.make_shape(
             np.abs(np.multiply(self.witdh, np.cos(self.steps))),
             self.n_layers,
@@ -81,6 +84,7 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def sinus_layer_stack(self):
+        
         layer_shape = self.make_shape(
             np.abs(np.multiply(self.witdh, np.sin(self.steps))),
             self.n_layers,
