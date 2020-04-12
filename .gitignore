@@ -24,3 +24,5 @@ cabal.project.local~
 /TMP.log
 /train.log
 test.log
+MLP/__pycache__/mlp_network.cpython-37.pyc
+/MLP/example.py

@@ -657,7 +657,7 @@ class Backpropagation(FeedForward):
             logging.getLogger("test")
             logging.basicConfig(
                 level=logging.DEBUG,
-                filename="tmp.log",
+                filename=tmp_filename,
                 # handlers=[logging.FileHandler(log_filename), logging.getLogger(log_filename)],
                 format="%(asctime)s\t%(levelname)-8s\t%(message)s",
                 datefmt="%Y-%m-%d %H:%M:%S",
