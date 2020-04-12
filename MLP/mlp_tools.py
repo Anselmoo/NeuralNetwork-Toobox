@@ -1,3 +1,4 @@
+__all__ = ['MultilayerDesign', 'TrainTestSplit']
 import numpy as np
 from scipy.stats import norm
 
@@ -93,6 +94,14 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
 
+class TrainTestSplit:
+    @staticmethod
+    def train_test_set(data, ratio):
+        
+        
+        cut_point = np.int(ratio[0] * data.shape[0] / ratio[1])
+        return data[:cut_point], data[cut_point:]
+        
 if __name__ == "__main__":
     trainingSet = np.genfromtxt(
         "data/4_operators/6d5cb9b4b550b99515035260587fe41e5e94bd06ac35cadbf7e0de2f2ab8f92d.csv",
@@ -106,3 +115,7 @@ if __name__ == "__main__":
     print(MultilayerDesign(trainingSet[1]).norm_layer_stack())
     print(MultilayerDesign(trainingSet[1]).cosinus_layer_stack())
     print(MultilayerDesign(trainingSet[1]).sinus_layer_stack())
+    data =  np.genfromtxt(
+        "data/4_operators/6d5cb9b4b550b99515035260587fe41e5e94bd06ac35cadbf7e0de2f2ab8f92d.csv",
+        delimiter=",")
+    print(TrainTestSplit.train_test_set(data, ratio=[2,3]))
