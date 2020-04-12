@@ -102,6 +102,8 @@ class TrainTestSplit:
         cut_point = np.int(ratio[0] * data.shape[0] / ratio[1])
         return data[:cut_point], data[cut_point:]
         
+class HyperOpt:
+    pass
 if __name__ == "__main__":
     trainingSet = np.genfromtxt(
         "data/4_operators/6d5cb9b4b550b99515035260587fe41e5e94bd06ac35cadbf7e0de2f2ab8f92d.csv",
