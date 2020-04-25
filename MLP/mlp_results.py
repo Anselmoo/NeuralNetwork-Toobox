@@ -17,7 +17,7 @@ class GetResults:
                     if file.endswith(".txt"):
                         self._dict["defs"]["hash"].append(file[:-4])
                         folders = root.split("/")
-                        self._dict["defs"]["batch"].append(path)
+                        self._dict["defs"]["batch"].append(folders[-3])
                         self._dict["defs"]["act"].append(folders[-2])
                         self._dict["defs"]["comp"].append(folders[-1])
                     elif file.endswith("train.log"):
@@ -31,8 +31,15 @@ class GetResults:
         with open(fname, "w+") as fp:
             json.dump(self._dict, fp)
 
+class AnalyzeResult(GetResults):
+    def __init__(self):
+        super(AnalyzeResult, self).__init__()
 
+    def initialse(self):
+        self.get_logfile()
+        self.save_json()
 if __name__ == "__main__":
-    results = GetResults()
-    results.get_logfile()
-    results.save_json()
+    #results = GetResults()
+    #results.get_logfile()
+    #results.save_json()
+    AnalyzeResult().initialse()

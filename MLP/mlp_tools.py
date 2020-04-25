@@ -4,11 +4,23 @@ from scipy.stats import norm
 
 
 class MultilayerDesign:
+    """MultilayerDesign.
+    """
+
     witdh = 0
     n_layers = 0
     steps = 0
 
     def __init__(self, witdh, n_layers=0):
+        """__init__.
+
+        Parameters
+        ----------
+        witdh :
+            witdh
+        n_layers :
+            n_layers
+        """
         self.witdh = witdh - 1
         if n_layers:
             self.n_layers = n_layers
@@ -18,6 +30,13 @@ class MultilayerDesign:
 
     @staticmethod
     def l_round(x):
+        """l_round.
+
+        Parameters
+        ----------
+        x :
+            x
+        """
 
         layer_shape = np.round(x, 0).astype(int)
         layer_shape[np.argwhere(layer_shape == 0)] = 1
@@ -26,6 +45,17 @@ class MultilayerDesign:
 
     @staticmethod
     def make_shape(func, n_layers, witdh):
+        """make_shape.
+
+        Parameters
+        ----------
+        func :
+            func
+        n_layers :
+            n_layers
+        witdh :
+            witdh
+        """
 
         layer_shape = np.zeros(n_layers)
         layer_shape[-1] = 1
@@ -35,11 +65,15 @@ class MultilayerDesign:
         return layer_shape
 
     def exp_layer_stack(self):
+        """exp_layer_stack.
+        """
 
         layer_shape = self.make_shape(np.exp(self.steps), self.n_layers, self.witdh)
         return self.l_round(layer_shape)
 
     def neg_exp_layer_stack(self):
+        """neg_exp_layer_stack.
+        """
 
         layer_shape = self.make_shape(
             self.witdh * np.exp(-self.steps), self.n_layers, self.witdh
@@ -47,6 +81,8 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def square_layer_stack(self):
+        """square_layer_stack.
+        """
 
         layer_shape = self.make_shape(
             np.power(self.steps, 2), self.n_layers, self.witdh
@@ -54,6 +90,8 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def neg_square_layer_stack(self):
+        """neg_square_layer_stack.
+        """
 
         layer_shape = self.make_shape(
             np.float_power(2, -self.steps), self.n_layers, self.witdh
@@ -61,6 +99,8 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def log_layer_stack(self):
+        """log_layer_stack.
+        """
 
         layer_shape = self.make_shape(
             np.log(self.steps + self.witdh), self.n_layers, self.witdh
@@ -68,6 +108,8 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def norm_layer_stack(self):
+        """norm_layer_stack.
+        """
         x = np.linspace(norm.ppf(0.01), norm.ppf(0.99), self.n_layers)
 
         layer_shape = self.make_shape(
@@ -76,6 +118,8 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def cosinus_layer_stack(self):
+        """cosinus_layer_stack.
+        """
 
         layer_shape = self.make_shape(
             np.abs(np.multiply(self.witdh, np.cos(self.steps))),
@@ -85,6 +129,8 @@ class MultilayerDesign:
         return self.l_round(layer_shape)
 
     def sinus_layer_stack(self):
+        """sinus_layer_stack.
+        """
 
         layer_shape = self.make_shape(
             np.abs(np.multiply(self.witdh, np.sin(self.steps))),
@@ -95,14 +141,29 @@ class MultilayerDesign:
 
 
 class TrainTestSplit:
+    """TrainTestSplit.
+    """
+
     @staticmethod
     def train_test_set(data, ratio):
+        """train_test_set.
+
+        Parameters
+        ----------
+        data :
+            data
+        ratio :
+            ratio
+        """
 
         cut_point = np.int(ratio[0] * data.shape[0] / ratio[1])
         return data[:cut_point], data[cut_point:]
 
 
 class HyperOpt:
+    """HyperOpt.
+    """
+
     pass
 
 

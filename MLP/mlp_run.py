@@ -7,21 +7,40 @@ from glob import glob
 
 
 class InputReader(object):
+    """InputReader.
+    """
+
     def __init__(self, fname):
+        """__init__.
+
+        Parameters
+        ----------
+        fname :
+            fname
+        """
         with open(fname) as f:
             self.__dict__ = json.load(f)
 
     def get_keys(self):
+        """get_keys.
+        """
         return self.__dict__.keys()
 
     def get_values(self):
+        """get_values.
+        """
         return self.__dict__.values()
 
     def get_dict(self):
+        """get_dict.
+        """
         return self.__dict__
 
 
 class RunMLP:
+    """RunMLP.
+    """
+
     def unit_run(
         crun,
         autosave,
@@ -35,6 +54,33 @@ class RunMLP:
         min_error,
         network_layers,
     ):
+        """unit_run.
+
+        Parameters
+        ----------
+        crun :
+            crun
+        autosave :
+            autosave
+        split :
+            split
+        fnames :
+            fnames
+        descrpt :
+            descrpt
+        act_func :
+            act_func
+        epochs :
+            epochs
+        l_rate :
+            l_rate
+        e_rate :
+            e_rate
+        min_error :
+            min_error
+        network_layers :
+            network_layers
+        """
         for fname, descrp in zip(fnames, descrpt):
             for n_layer in network_layers:
                 # Check for directory
@@ -74,6 +120,15 @@ class RunMLP:
 
     @staticmethod
     def get_layerShape(witdh, n_layer):
+        """get_layerShape.
+
+        Parameters
+        ----------
+        witdh :
+            witdh
+        n_layer :
+            n_layer
+        """
         if n_layer[0] == "exp":
             return MultilayerDesign(witdh, n_layer[1]).exp_layer_stack()
         elif n_layer[0] == "square":
@@ -89,6 +144,13 @@ class RunMLP:
 
     @staticmethod
     def check_or_make(*path):
+        """check_or_make.
+
+        Parameters
+        ----------
+        path :
+            path
+        """
         tmp_dir = os.path.join(*path)
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
@@ -96,6 +158,15 @@ class RunMLP:
 
     @staticmethod
     def autonames(path, names):
+        """autonames.
+
+        Parameters
+        ----------
+        path :
+            path
+        names :
+            names
+        """
         train_file = os.path.join(path, names + "_train.log")
         test_file = os.path.join(path, names + "_test.log")
         save_file = os.path.join(path, names + ".txt")
@@ -103,6 +174,13 @@ class RunMLP:
 
     @staticmethod
     def get_data(fname):
+        """get_data.
+
+        Parameters
+        ----------
+        fname :
+            fname
+        """
         return np.genfromtxt(fname, delimiter=",",)
 
     @staticmethod
@@ -120,6 +198,35 @@ class RunMLP:
         tmp_filename,
         save_name,
     ):
+        """mlp_run.
+
+        Parameters
+        ----------
+        networkLayers :
+            networkLayers
+        activation :
+            activation
+        learningRate :
+            learningRate
+        eta :
+            eta
+        minimumError :
+            minimumError
+        maxNumEpochs :
+            maxNumEpochs
+        trainingSet :
+            trainingSet
+        testSet :
+            testSet
+        log_filename_train :
+            log_filename_train
+        log_filename_test :
+            log_filename_test
+        tmp_filename :
+            tmp_filename
+        save_name :
+            save_name
+        """
 
         backpropagation = mlp.Backpropagation(
             networkLayers=networkLayers,
@@ -140,26 +247,57 @@ class RunMLP:
 
 
 class SetupRun(InputReader):
+    """SetupRun.
+    """
+
     input_dict = {}
     run_key = []
     auto_save = False
 
     def __init__(self, fname):
+        """__init__.
+
+        Parameters
+        ----------
+        fname :
+            fname
+        """
         # super().__init__(fname)
         self.initialse(fname)
 
     def initialse(self, fname):
+        """initialse.
+
+        Parameters
+        ----------
+        fname :
+            fname
+        """
         ir = InputReader(fname)
         self.input_dict = ir.get_dict()
         self.run_key = ir.get_keys()
 
     def get_general(self, key):
+        """get_general.
+
+        Parameters
+        ----------
+        key :
+            key
+        """
         path = self.input_dict[key]["general_options"]["rpath"]
         autosave = self.input_dict[key]["general_options"]["autosave"]
         test = self.input_dict[key]["general_options"]["train_split"]
         return path, autosave, test
 
     def get_network(self, key):
+        """get_network.
+
+        Parameters
+        ----------
+        key :
+            key
+        """
 
         act_func = self.input_dict[key]["neural_network"]["function"]
         epochs = self.input_dict[key]["neural_network"]["epochs"]
@@ -173,11 +311,20 @@ class SetupRun(InputReader):
 
     @staticmethod
     def get_files(path):
+        """get_files.
+
+        Parameters
+        ----------
+        path :
+            path
+        """
         full_path = glob(path + "*csv")
         descrpt = [os.path.splitext(os.path.basename(fname))[0] for fname in full_path]
         return full_path, descrpt
 
     def setup_run(self):
+        """setup_run.
+        """
 
         for dkey in self.run_key:
 
