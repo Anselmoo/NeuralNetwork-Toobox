@@ -1,0 +1,154 @@
+{
+  "run_1": {
+    "general_options": {
+      "rpath": "../data/1_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 0, 
+        "square": 0, 
+        "norm": 0, 
+        "cos": 0, 
+        "sin": 0 }
+    }
+  },
+  "run_2": {
+    "general_options": {
+      "rpath": "../data/2_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 0, 
+        "square": 0, 
+        "norm": 0, 
+        "cos": 0, 
+        "sin": 0 }
+    }
+  },
+  "run_3": {
+    "general_options": {
+      "rpath": "../data/3_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 0, 
+        "square": 0, 
+        "norm": 0, 
+        "cos": 0, 
+        "sin": 0 }
+    }
+  },
+  "run_4": {
+    "general_options": {
+      "rpath": "../data/4_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 4, 
+        "square": 0, 
+        "norm": 0, 
+        "cos": 0, 
+        "sin": 0 }
+    }
+  },
+  "run_5": {
+    "general_options": {
+      "rpath": "../data/5_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 4, 
+        "square": 5, 
+        "norm": 0, 
+        "cos": 0, 
+        "sin": 0 }
+    }
+  },
+  "run_6": {
+    "general_options": {
+      "rpath": "../data/6_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 4, 
+        "square": 5, 
+        "norm": 6, 
+        "cos": 6, 
+        "sin": 6 }
+    }
+  },
+  "run_7": {
+    "general_options": {
+      "rpath": "../data/7_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 4, 
+        "square": 5, 
+        "norm": 6, 
+        "cos": 6, 
+        "sin": 6 }
+    }
+  },
+  "run_8": {
+    "general_options": {
+      "rpath": "../data/8_operators/",
+      "autosave": true,
+      "train_split": [3, 4]
+    },
+    "neural_network": {
+      "function": "Sigmoid",
+      "epochs": 1000000,
+      "learning_rate": 0.7,
+      "error_rate": 0.5,
+      "minimum_error": 0.0025,
+      "network_layers": { "exp": 4, 
+        "square": 5, 
+        "norm": 6, 
+        "cos": 6, 
+        "sin": 6 }
+    }
+  }
+}

@@ -39,8 +39,10 @@ class RunMLP:
             for n_layer in network_layers:
                 # Check for directory
                 if autosave:
-                    c_folder = RunMLP.check_or_make(crun, n_layer[0], str(autosave))
-                    filenames = RunMLP.autonames(c_folder, descrp )
+                    c_folder = RunMLP.check_or_make(
+                        crun, n_layer[0], "{}-{}".format(split[0], split[1])
+                    )
+                    filenames = RunMLP.autonames(c_folder, descrp)
                 # Load Data
                 data = RunMLP.get_data(fname)
                 # Check if test set is activated
@@ -91,11 +93,12 @@ class RunMLP:
         if not os.path.exists(tmp_dir):
             os.makedirs(tmp_dir)
         return tmp_dir
+
     @staticmethod
     def autonames(path, names):
-        train_file = os.path.join(path, names+"_train.log")
-        test_file = os.path.join(path, names+"_test.log")
-        save_file = os.path.join(path, names+".txt")
+        train_file = os.path.join(path, names + "_train.log")
+        test_file = os.path.join(path, names + "_test.log")
+        save_file = os.path.join(path, names + ".txt")
         return train_file, test_file, save_file
 
     @staticmethod
@@ -210,6 +213,6 @@ class SetupRun(InputReader):
 if __name__ == "__main__":
     # test_case_ii()
     # json_data = open('MLP/input_file.json', 'r')
-    test1 = SetupRun("MLP/input_file.json")
+    test1 = SetupRun("input_file.json")
     # print(test1.get_values())
     test1.setup_run()
