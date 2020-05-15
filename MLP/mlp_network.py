@@ -1,5 +1,4 @@
 __all__ = ["Backpropagation"]
-import numpy as np
 import sys
 import logging
 import os
