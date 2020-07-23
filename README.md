@@ -1,2 +1,2 @@
-# Anselm.Hahn-gmail.com
+# Simple MLP-Network
 Test Neural Network
